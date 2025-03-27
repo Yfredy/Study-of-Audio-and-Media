@@ -82,70 +82,156 @@
         ```
 
 2. 查看仓库状态
+
     ```bash
     git status
     ```
+
 3. 添加文件到暂存区
+
     ```bash
     git add .
     ```
+
 4. 提交暂存区到本地仓库
+
     ```bash
     git commit -m "COMMIT_MESSAGE"
     ```
+
 5. 推送本地仓库到远程仓库
+
     ```bash
     git push origin master
     ```
+
 6. 拉取远程仓库到本地仓库
+  
     ```bash
     git pull origin master
     ```
+
 7. 查看远程仓库
+
     ```bash
     git remote -v
     ```
+
 8. 查看分支
+
     ```bash
     git branch
     ```
-9.  创建分支
+
+9. 创建分支
+
     ```bash
     git branch BRANCH_NAME
     ```
+
 10. 切换分支
+
     ```bash
     git checkout BRANCH_NAME
     ```
+
 11. 合并分支
+
     ```bash
     git merge BRANCH_NAME
     ```
+
 12. 删除分支
+
     ```bash
     git branch -d BRANCH_NAME
     ```
+
 13. 查看提交记录
+
     ```bash
     git log
     ```
+
 14. 查看提交记录（带图形化）
+
     ```bash
     git log --graph --pretty=oneline --abbrev-commit
     ```
+
 15. 回退到上一个版本
+
     ```bash
     git reset --hard HEAD^
     ```
+
 16. 回退到指定版本
+
     ```bash
     git reset --hard COMMIT_ID
     ```
+
 17. 查看差异
+
     ```bash
     git diff
     ```
+
 18. 查看差异（带图形化）
+
     ```bash
     git difftool
     ```
+
+## git使用报错
+
+1. GitHub连接超时问题 `Recv failure: Connection was reset`
+    1. 问题
+        已经开了梯子但是在Idea中使用git（GitHub）还是连接超时Recv failure: Connection was reset。此时需要让git走代理。
+    2. 解决方案
+        1. 对右下角网络点击右键 -> 打开网络和Internet设置
+        2. 代理 -> 查看到地址和端口号127.0.0.1:7890
+        3. 在终端（cmd）输入命令
+
+            ```bash
+            git config --global http.proxy URL_ADDRESS
+            git config --global http.proxy http://127.0.0.1:7890
+            git config --global https.proxy http://127.0.0.1:7890
+            ```
+
+        4. 查看是否设置成功
+
+            ```bash
+            git config --global -l
+            ```
+
+2. 超时报错
+    1. 方案1
+
+        ```bash
+        // 首先，查一下当前全局的 http 代理：
+        git config --global http.proxy
+        // 如果有代理，就取消
+        git config --global --unset http.proxy
+
+
+        // 再查 https 的代理：
+        git config --global https.proxy
+        // 同样的，有就取消
+        git config --global --unset https.proxy
+        ```
+
+    2. 方案2
+
+        ```bash
+        // 首先，查一下代理：
+        env|grep -i proxy
+        // 有就取消
+        unset http_proxy
+        unset https_proxy
+
+        // 再查
+        env|grep -i proxy
+        // 正常情况下是没有代理了
+        // 再次查询一下，如果还有的再取消
+        ```
